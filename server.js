@@ -17,7 +17,7 @@ app.use(bodyParser.json())
 
 //Respuesta del post
 app.post('/', function(req, res) {
-    let body = req.body;
+    let body = req.body.result.parameters.address.city;
     let texto;
 
     location = encodeURI(body.location);
