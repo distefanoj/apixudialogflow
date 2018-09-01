@@ -24,7 +24,15 @@ app.post('/', function(req, res) {
         req.body.result.parameters.address &&
         req.body.result.parameters.address.city ?
         req.body.result.parameters.address.city :
-        "Seems like some problem. Speak again.";
+        "error";
+
+    if (ciudad === "error") {
+        return res.json({
+            speech: "Repita su pregunta por favor",
+            displayText: "Repita su pregunta por favor",
+            source: 'team info'
+        });
+    }
 
     location = encodeURI(ciudad);
     weather.currentWeather(location, function(clima) {
