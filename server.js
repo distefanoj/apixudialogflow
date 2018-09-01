@@ -19,17 +19,23 @@ app.use(bodyParser.json())
 app.post('/', function(req, res) {
 
 
-    var speech =
-        req.body.result &&
+    let ciudad = req.body.result &&
         req.body.result.parameters &&
         req.body.result.parameters.address &&
         req.body.result.parameters.address.city ?
         req.body.result.parameters.address.city :
         "Seems like some problem. Speak again.";
-    return res.json({
-        speech: speech,
-        displayText: speech,
-        source: "webhook-echo-sample"
+
+    location = encodeURI(ciudad);
+    weather.currentWeather(location, function(clima) {
+        let resp = JSON.parse(clima);
+        texto = `La temperatura actual en ${resp.location.name} es de ${resp.current.temp_c}º Celsius`;
+
+        return res.json({
+            speech: texto,
+            displayText: texto,
+            source: 'team info'
+        });
     });
 
 });
