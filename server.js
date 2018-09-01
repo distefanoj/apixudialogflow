@@ -23,8 +23,8 @@ app.post('/', function(req, res) {
         req.body.result &&
         req.body.result.parameters &&
         req.body.result.parameters.address &&
-        req.body.result.parameters.address.location ?
-        req.body.result.parameters.address.location :
+        req.body.result.parameters.address.city ?
+        req.body.result.parameters.address.city :
         "Seems like some problem. Speak again.";
     return res.json({
         speech: speech,
