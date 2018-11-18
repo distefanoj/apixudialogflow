@@ -6,7 +6,8 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
-    "firebase-admin": "^6.1.0"
+    "firebase-admin": "^6.1.0",
+    "nodemailer": "^4.6.8"
   },
   "devDependencies": {},
   "scripts": {
