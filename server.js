@@ -21,7 +21,7 @@ db.settings(settings);
 
 
 //Variables globales
-let nombre = "Silvina"
+let nombre = ""
 
 
 
