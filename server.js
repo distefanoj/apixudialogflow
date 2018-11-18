@@ -99,21 +99,38 @@ app.post('/', function(req, res) {
     //Función para responder a la consulta por una persona
     function getUsuario(username) {
         let vive = false;
+        let presente = false;
 
         db.collection('habitantes').get()
             .then((snapshot) => {
                 snapshot.forEach((doc) => {
                     if (doc.data().Nombre == username) {
                         vive = true;
+                        if (doc.data().Presente) {
+                            presente = true;
+                        }
                     }
                 });
+
+                //Se verifica si la persona vive en el domicilio
                 if (vive) {
-                    texto = 'Esta persona vive en el domicilio';
-                    return res.json({
-                        speech: texto,
-                        displayText: "Repita su pregunta por favor",
-                        source: 'team info'
-                    });
+                    //Se verifica si la persona está presente
+                    if (presente) {
+                        texto = 'Un momento por favor';
+                        return res.json({
+                            speech: texto,
+                            displayText: "Repita su pregunta por favor",
+                            source: 'team info'
+                        });
+                    } else {
+                        texto = 'En esto momento no se encuentra. ¿Desea dejar un mensaje?';
+                        return res.json({
+                            speech: texto,
+                            displayText: "Repita su pregunta por favor",
+                            source: 'team info'
+                        });
+                    }
+
                 } else {
                     texto = 'Esta persona NO en el domicilio';
                     return res.json({
