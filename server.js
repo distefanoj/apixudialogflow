@@ -48,13 +48,9 @@ app.post('/', function(req, res) {
 
 
         nombre = encodeURI(req.body.result.parameters.Nombre);
-        texto = getUsuario(nombre);
+        getUsuario(nombre)
 
-        return res.json({
-            speech: texto,
-            displayText: texto,
-            source: 'team info'
-        });
+
 
     }
 
@@ -100,7 +96,42 @@ app.post('/', function(req, res) {
 
 
 
+    //Función para responder a la consulta por una persona
+    function getUsuario(username) {
+        db.collection('habitantes').get()
+            .then((snapshot) => {
+                snapshot.forEach((doc) => {
+                    if (doc.data().Nombre == username) {
 
+
+
+
+                        texto = 'Esta persona vive en el domicilio';
+
+                        return res.json({
+                            speech: texto,
+                            displayText: "Repita su pregunta por favor",
+                            source: 'team info'
+                        });
+
+                    } else {
+
+
+                        texto = 'Esta persona NO vive en el domicilio';
+                        return res.json({
+                            speech: texto,
+                            displayText: "Repita su pregunta por favor",
+                            source: 'team info'
+                        });
+
+                    }
+
+                });
+            })
+            .catch((err) => {
+                console.log('Error getting documents', err);
+            });
+    }
 
 
 
@@ -128,35 +159,6 @@ app.post('/', function(req, res) {
 
 
 
-//Función para responder a la consulta por una persona
-function getUsuario(username) {
-    db.collection('habitantes').get()
-        .then((snapshot) => {
-            snapshot.forEach((doc) => {
-                if (doc.data().Nombre == username) {
-
-
-
-
-                    texto = 'Esta persona vive en el domicilio';
-
-                    return texto;
-
-
-                } else {
-
-
-                    texto = 'Esta persona NO vive en el domicilio';
-
-                    return texto;
-                }
-
-            });
-        })
-        .catch((err) => {
-            console.log('Error getting documents', err);
-        });
-}
 
 
 
