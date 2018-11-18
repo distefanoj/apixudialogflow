@@ -98,40 +98,38 @@ app.post('/', function(req, res) {
 
     //Función para responder a la consulta por una persona
     function getUsuario(username) {
+        let vive = false;
+
         db.collection('habitantes').get()
             .then((snapshot) => {
                 snapshot.forEach((doc) => {
                     if (doc.data().Nombre == username) {
-
-
-
-
-                        texto = 'Esta persona vive en el domicilio';
-
-                        return res.json({
-                            speech: texto,
-                            displayText: "Repita su pregunta por favor",
-                            source: 'team info'
-                        });
-
-                    } else {
-
-
-                        texto = 'Esta persona NO vive en el domicilio';
-                        return res.json({
-                            speech: texto,
-                            displayText: "Repita su pregunta por favor",
-                            source: 'team info'
-                        });
-
+                        vive = true;
                     }
-
                 });
+                if (vive) {
+                    texto = 'Esta persona vive en el domicilio';
+                    return res.json({
+                        speech: texto,
+                        displayText: "Repita su pregunta por favor",
+                        source: 'team info'
+                    });
+                } else {
+                    texto = 'Esta persona NO en el domicilio';
+                    return res.json({
+                        speech: texto,
+                        displayText: "Repita su pregunta por favor",
+                        source: 'team info'
+                    });
+                }
+
             })
             .catch((err) => {
                 console.log('Error getting documents', err);
             });
     }
+
+
 
 
 
