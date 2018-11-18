@@ -59,7 +59,7 @@ app.post('/', function(req, res) {
 
     if (req.body.result.action == "deja-mensaje") {
 
-        mensaje = encodeURI(req.body.result.parameters.Mensaje);
+        mensaje = decodeURI(req.body.result.parameters.Mensaje);
         texto = `He recibido el mensaje`;
 
         return res.json({
