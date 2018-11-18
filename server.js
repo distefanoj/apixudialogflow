@@ -71,8 +71,8 @@ app.post('/', function(req, res) {
     //Flujo para tomar mensajes
     if (req.body.result.action == "deja-mensaje") {
         //Se verifica que exista el mensaje
-        if (req.body.result.parameters.Mensaje != "") {
-            mensaje = decodeURI(req.body.result.parameters.Mensaje); //Se guarda el mensaje
+        if (req.body.result.contexts[0].parameters.Mensaje != "") {
+            mensaje = decodeURI(req.body.result.contexts[0].parameters.Mensaje); //Se guarda el mensaje
             //Se verifica que exista el nombre de la persona que lo deja
             if (req.body.result.parameters.Name != "") {
                 emisor = decodeURI(req.body.result.parameters.Name); //Se guarda el nombre del emisor
@@ -169,6 +169,29 @@ app.post('/', function(req, res) {
                     //Se verifica si la persona está presente
                     if (presente) {
                         texto = 'Un momento por favor';
+
+                        //Se prepara el correo
+                        var mailOptions = {
+                            from: '',
+                            to: mail,
+                            subject: 'Protero Inteligente: ¡Timbre!',
+                            html: '<h1>Hay alguien preguntando por vos en la puerta</h1>'
+                        };
+                        //Se envía el correo
+                        transporter.sendMail(mailOptions, function(error, info) {
+                            if (error) {
+                                //console.log(error);
+                            } else {
+                                //console.log('Email sent: ' + info.response);
+                            }
+                        });
+
+
+
+
+
+
+
                         return res.json({
                             speech: texto,
                             displayText: "Repita su pregunta por favor",
