@@ -21,8 +21,10 @@ db.settings(settings);
 
 
 //Variables globales
-let nombre = ""
-
+let nombre = "";
+let apellido = "";
+let mail = "";
+let presente = "";
 
 
 //Variables de entorno
@@ -55,6 +57,19 @@ app.post('/', function(req, res) {
     }
 
 
+    if (req.body.result.action == "deja-mensaje") {
+
+
+        texto = `He recibido el mensaje`;
+
+        return res.json({
+            speech: texto,
+            displayText: texto,
+            source: 'team info'
+        });
+
+
+    }
 
 
 
@@ -105,6 +120,10 @@ app.post('/', function(req, res) {
             .then((snapshot) => {
                 snapshot.forEach((doc) => {
                     if (doc.data().Nombre == username) {
+                        nombre = doc.data().Nombre;
+                        apellido = doc.data().Apellido;
+                        mail = doc.data().Mail;
+                        presente = doc.data().Presente;
                         vive = true;
                         if (doc.data().Presente) {
                             presente = true;
